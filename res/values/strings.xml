@@ -3,5 +3,7 @@
 
     <string name="hello">Hello World, BlinkeyActivity!</string>
     <string name="app_name">Blinkey</string>
+    <string name="toggle_backlight">Toggle keyboard backlight</string>
+    <string name="toggle_svc_run">Run service</string>
 
 </resources>

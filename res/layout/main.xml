@@ -4,15 +4,16 @@
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/hello" />
-
     <CheckBox
         android:id="@+id/toggleBacklight"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Toggle keyboard backlight"/>
+        android:text="@string/toggle_backlight"/>
 
+    <CheckBox
+        android:id="@+id/toggleServiceRun"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/toggle_svc_run"/>
+    
 </LinearLayout>

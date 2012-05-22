@@ -1,12 +1,9 @@
 package mtk.star.a1000;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
@@ -18,20 +15,37 @@ public class BlinkeyActivity extends Activity implements OnCheckedChangeListener
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         final CheckBox toggleBox = (CheckBox) findViewById(R.id.toggleBacklight);
+        final CheckBox toggleSvc = (CheckBox) findViewById(R.id.toggleServiceRun);
         toggleBox.setOnCheckedChangeListener(this);
+        toggleSvc.setOnCheckedChangeListener(this);
     }
 
-	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-    	File brigtness = new File("/sys/class/leds/button-backlight/brightness");
-    	try {
-    		FileOutputStream out = new FileOutputStream(brigtness);
-			try {
-				out.write(isChecked? '1' : '0');
-			} catch (IOException e) {
-				e.printStackTrace();
+    /*
+    @Override
+    public void onBackPressed() {
+		Log.v(this.getClass().getName(), "back pressed");
+    	this.finish();
+    	super.onBackPressed();
+    }
+    */
+    
+	public void onCheckedChanged(CompoundButton src, boolean isChecked) {
+		switch (src.getId()) {
+		case R.id.toggleBacklight:
+			Log.v(this.getClass().getName(), "toggling backlight");
+			BlinkeyService.setBacklight(isChecked);
+			break;
+		case R.id.toggleServiceRun:
+			Intent i = new Intent(this, BlinkeyService.class);
+			i.setAction(isChecked? BlinkeyService.ACTION_START : BlinkeyService.ACTION_STOP);
+			if (isChecked) {
+				Log.v(this.getClass().getName(), "start service");
+				startService(i);
+			} else {
+				Log.v(this.getClass().getName(), "stop service");
+				stopService(i);
 			}
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			break;
 		}
 	}
 }
